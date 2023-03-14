@@ -13,11 +13,14 @@ public class Main {
     public static void main(String[] args) throws IOException {
         List<Integer> inputs = MyFileReader.readFileAndReturnIntList("C:\\DEV\\Java\\advent-of-code\\src\\main\\java\\djamel\\year_2019\\day_2\\input.txt", ",");
 
+        inputs.set(1, 12);
+        inputs.set(2, 2);
+
         for (int i = 0; i < inputs.size(); i += 4) {
             int opcode = inputs.get(i);
             if (opcode == HALT_CODE) break;
-            int input1 = inputs.get(i + 1);
-            int input2 = inputs.get(i + 2);
+            int input1 = inputs.get(inputs.get(i + 1));
+            int input2 = inputs.get(inputs.get(i + 2));
             int storageIndex = inputs.get(i + 3);
             if (opcode == ADDITION_CODE) inputs.set(storageIndex, input1 + input2);
             if (opcode == MULTIPLICATION_CODE) inputs.set(storageIndex, input1 * input2);
