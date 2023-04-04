@@ -2,11 +2,9 @@ package djamel.year_2015.day_3;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class Santa {
     private static final String NORTH = "^";
     private static final String EAST = ">";
