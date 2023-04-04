@@ -18,6 +18,18 @@ public class MyFileReader {
         return res;
     }
 
+    public static List<String> readFileCharsAndReturnStringList(String file) throws IOException {
+        List<String> res = new ArrayList<>();
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+        int i = bufferedReader.read();
+        while(i != -1) {
+            char c = (char) i;
+            res.add(String.valueOf(c));
+            i = bufferedReader.read();
+        }
+        return res;
+    }
+
     public static List<Integer> readFileAndReturnIntList(String file, String separator) throws IOException {
         List<Integer> res = new ArrayList<>();
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
