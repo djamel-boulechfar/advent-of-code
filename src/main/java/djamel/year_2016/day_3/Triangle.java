@@ -1,25 +1,24 @@
 package djamel.year_2016.day_3;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Arrays;
 
 @Data
-@AllArgsConstructor
 public class Triangle {
-    private int side1;
-    private int side2;
-    private int side3;
+    private int[] sides;
+
+    public Triangle(int value1, int value2, int value3) {
+        this.sides = new int[] { value1, value2, value3 };
+        Arrays.sort(this.sides);
+    }
 
     public boolean isPossible() {
-        int[] sides = { side1, side2, side3 };
-        Arrays.sort(sides);
-        return sides[0] + sides[1] > sides[2];
+        return this.sides[0] + this.sides[1] > this.sides[2];
     }
 
     @Override
     public String toString() {
-        return "[" + side1 + ", " + side2 + ", " + side3 + "]";
+        return "[" + this.sides[0] + ", " + this.sides[1] + ", " + this.sides[2] + "]";
     }
 }

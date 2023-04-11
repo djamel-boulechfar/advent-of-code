@@ -11,9 +11,9 @@ public class Part2 {
         List<String> inputs = MyFileReader.readFileAndReturnStringList("C:\\DEV\\Java\\advent-of-code\\src\\main\\java\\djamel\\year_2016\\day_3\\input.txt");
 
         // Retrait des espaces multiples
-        for (int i = 0; i < inputs.size(); i++) inputs.set(i, inputs.get(i).trim().replaceAll(" +", " "));
+        List<String> cleanLines = inputs.parallelStream().map(i -> i.trim().replaceAll(" +", " ")).toList();
 
-        List<Integer> integers = linesToIntegers(inputs);
+        List<Integer> integers = linesToIntegers(cleanLines);
 
         List<Triangle> triangles = createTriangles(integers);
 
@@ -43,7 +43,7 @@ public class Part2 {
                 // Décalage de i pour chaque colonne
                 int newI = i + j;
 
-                if (newI + 3 < integers.size() && newI + 6 < integers.size()) {
+                if (newI + 6 < integers.size()) {
                     triangles.add(
                             new Triangle(
                                     integers.get(newI),
