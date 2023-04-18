@@ -1,18 +1,24 @@
 package djamel.year_2017.day_3;
 
-public class Part1 {
-    private static final int INPUT = 325489000;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Part2 {
+    private static final int INPUT = 325489;
     private static final Direction[] DIRECTIONS = Direction.getOrderedDirections();
     private static final int INITIAL_X_Y = 0;
 
     public static void main(String[] args) {
+        Map<Coordinates, Integer> spiral = new HashMap<>();
+
         // Position initiale
         int x = INITIAL_X_Y;
         int y = INITIAL_X_Y;
 
         // Première valeur de la spirale
         int value = 1;
-        value++;
+        Coordinates firstCoordinates = new Coordinates(x, y);
+        spiral.put(firstCoordinates, value);
 
         int directionIndex = 0;
         int stepsToDo = 1;
@@ -31,7 +37,9 @@ public class Part1 {
                             case LEFT -> x--;
                             default -> throw new IllegalArgumentException("Direction invalide : " + direction);
                         }
-                        value++;
+                        Coordinates coordinates = new Coordinates(x, y);
+                        value = coordinates.getAdjacentSquaresSum(spiral);
+                        spiral.put(coordinates, value);
                     }
                 }
 
@@ -41,8 +49,7 @@ public class Part1 {
             stepsToDo++;
         }
 
-        int distance = Math.abs(x - INITIAL_X_Y) + Math.abs(y - INITIAL_X_Y);
-
-        System.out.println("Distance : " + distance);
+        System.out.println("Valeur : " + value);
     }
 }
+

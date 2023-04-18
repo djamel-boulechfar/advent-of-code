@@ -6,7 +6,7 @@ public enum Direction {
     DOWN,
     LEFT;
 
-    public static Direction[] getOrderedDirectionsInOrder() {
+    public static Direction[] getOrderedDirections() {
         return new Direction[] { RIGHT, UP, LEFT, DOWN };
     }
 }
