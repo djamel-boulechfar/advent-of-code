@@ -37,3 +37,5 @@ _
 .src/main/java/djamel/year_2020/day_3/Area.java,0\2\02328d108c2d3dc5ab5c256e6247447b1540c04b
 _
 /src/main/java/djamel/year_2021/day_3/Part1.java,f\1\f17ca3f78b385fbfee52fa8ab3e7aae68cc5c97c
+7
+pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
