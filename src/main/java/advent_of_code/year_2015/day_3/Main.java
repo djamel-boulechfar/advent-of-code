@@ -13,7 +13,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         // Lecture de l'input
-        List<String> directions = MyFileReader.readFileCharsAndReturnStringList("C:\\DEV\\Java\\advent-of-code\\src\\main\\java\\djamel\\year_2015\\day_3\\input.txt");
+        List<String> directions = MyFileReader.readFileCharsAndReturnStringList("C:\\DEV\\Java\\advent-of-code\\src\\main\\java\\advent_of_code\\year_2015\\day_3\\input.txt");
 
         // Initialisation de la grille
         gridWidth = directions.size() * 2;

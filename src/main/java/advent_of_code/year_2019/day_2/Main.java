@@ -11,7 +11,7 @@ public class Main {
     private static final int HALT_CODE = 99;
 
     public static void main(String[] args) throws IOException {
-        List<Integer> inputs = MyFileReader.readFileAndReturnIntList("C:\\DEV\\Java\\advent-of-code\\src\\main\\java\\djamel\\year_2019\\day_2\\input.txt", ",");
+        List<Integer> inputs = MyFileReader.readFileAndReturnIntList("C:\\DEV\\Java\\advent-of-code\\src\\main\\java\\advent_of_code\\year_2019\\day_2\\input.txt", ",");
 
         inputs.set(1, 12);
         inputs.set(2, 2);

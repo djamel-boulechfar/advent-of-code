@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Part1 {
     public static void main(String[] args) throws IOException {
-        List<String> inputs = MyFileReader.readFileAndReturnStringList("src/main/java/djamel/year_2021/day_3/input.txt");
+        List<String> inputs = MyFileReader.readFileAndReturnStringList("src/main/java/advent_of_code/year_2021/day_3/input.txt");
 
         // Longueur des binaires
         int binaryLength = inputs.get(0).length();
@@ -26,10 +26,14 @@ public class Part1 {
         int result = decimalGamma * decimalEpsilon;
 
         System.out.println("gamma * epsilon = " + result);
+
+        int zer = 22;
+
+        System.out.println("ouais : " + ~zer);
     }
 
     // Renvoie le bit le plus fréquent d'une colonne donnée sur la liste d'inputs donnée
-    public static String mostCommonBitOfColumn(List<String> inputs, int columnNumber) {
+    public static char mostCommonBitOfColumn(List<String> inputs, int columnNumber) {
         int zeroCount = (int) inputs.stream()
                 .filter(input -> input.charAt(columnNumber) == '0')
                 .count();
@@ -38,7 +42,7 @@ public class Part1 {
                 .filter(input -> input.charAt(columnNumber) == '1')
                 .count();
 
-        return zeroCount > oneCount ? "0" : "1";
+        return zeroCount > oneCount ? '0' : '1';
     }
 
     // Renvoie l'inverse du binaire donné, tout 0 devient un 1 et tout 1 devient un 0

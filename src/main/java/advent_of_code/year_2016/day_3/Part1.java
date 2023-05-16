@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Part1 {
     public static void main(String[] args) throws IOException {
-        List<String> inputs = MyFileReader.readFileAndReturnStringList("C:\\DEV\\Java\\advent-of-code\\src\\main\\java\\djamel\\year_2016\\day_3\\input.txt");
+        List<String> inputs = MyFileReader.readFileAndReturnStringList("C:\\DEV\\Java\\advent-of-code\\src\\main\\java\\advent_of_code\\year_2016\\day_3\\input.txt");
 
         // Retrait des espaces multiples
         for (int i = 0; i < inputs.size(); i++) inputs.set(i, inputs.get(i).trim().replaceAll(" +", " "));

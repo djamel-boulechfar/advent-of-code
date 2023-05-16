@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        List<String> inputs = MyFileReader.readFileAndReturnStringList("src/main/java/djamel/year_2018/day_3/input.txt");
+        List<String> inputs = MyFileReader.readFileAndReturnStringList("src/main/java/advent_of_code/year_2018/day_3/input.txt");
 
         List<Claim> claims = inputsToClaims(inputs);
 

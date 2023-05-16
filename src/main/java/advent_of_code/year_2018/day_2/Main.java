@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        List<String> ids = MyFileReader.readFileAndReturnStringList("C:\\DEV\\Java\\advent-of-code\\src\\main\\java\\djamel\\year_2018\\day_2\\input.txt");
+        List<String> ids = MyFileReader.readFileAndReturnStringList("C:\\DEV\\Java\\advent-of-code\\src\\main\\java\\advent_of_code\\year_2018\\day_2\\input.txt");
 
         int twoLettersCount = 0;
         int threeLettersCount = 0;
