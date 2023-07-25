@@ -14,14 +14,14 @@ public class Part1 {
 
         List<Pair<Elf, Elf>> elvesPairs = generateElvesPairs(inputs);
 
-        int fullyOverlappedAssignmentsCount = getFullyOverlappedCount(elvesPairs);
+        long fullyOverlappedAssignmentsCount = getFullyOverlappedCount(elvesPairs);
 
         System.out.println(fullyOverlappedAssignmentsCount);
     }
 
     private static List<Pair<Elf, Elf>> generateElvesPairs(List<String> inputs) {
         List<Pair<Elf, Elf>> elvesPairs = new ArrayList<>();
-        for (String input: inputs) {
+        for (String input : inputs) {
             String[] elvesAssignments = input.split(",");
 
             String[] firstElfSections = elvesAssignments[0].split("-");
@@ -34,16 +34,15 @@ public class Part1 {
         }
         return elvesPairs;
     }
-    
-    private static int getFullyOverlappedCount(List<Pair<Elf, Elf>> elvesPairs) {
-        int result = 0;
-        for (Pair<Elf, Elf> elvesPair: elvesPairs) {
-            Elf firstElf = elvesPair.getLeft();
-            Elf secondElf = elvesPair.getRight();
-            if (firstElf.sectionsRangeFullyContainsOtherElfSectionsRange(secondElf) || secondElf.sectionsRangeFullyContainsOtherElfSectionsRange(firstElf)) {
-                result++;
-            }
-        }
-        return result;
+
+    private static long getFullyOverlappedCount(List<Pair<Elf, Elf>> elvesPairs) {
+        return elvesPairs.stream()
+                .filter(elvesPair -> {
+                    Elf firstElf = elvesPair.getLeft();
+                    Elf secondElf = elvesPair.getRight();
+                    return firstElf.sectionsRangeFullyContainsOtherElfSectionsRange(secondElf)
+                            || secondElf.sectionsRangeFullyContainsOtherElfSectionsRange(firstElf);
+                })
+                .count();
     }
 }
