@@ -23,3 +23,17 @@ g
 7src/main/java/advent_of_code/year_2016/day_3/Part2.java,d\0\d09c7f5cedbb09dff75f86838751803154341d7a
 f
 6src/main/java/advent_of_code/year_2015/day_3/Main.java,9\7\97f972714eaf33485bdb19476566ac21fa243039
+j
+:src/main/java/advent_of_code/year_2021/day_5/Position.java,8\3\83189f1dc5be831be716e048fbaa3a994c5abfb6
+g
+7src/main/java/advent_of_code/year_2020/day_3/Slope.java,9\2\92593a15969ae3bd76ab63308f3b50c6451e11cd
+f
+6src/main/java/advent_of_code/year_2020/day_3/Area.java,d\a\da795010c11167a567ab8900c0acc3fc730d6d4b
+r
+Bsrc/main/java/advent_of_code/year_2021/day_5/HydrothermalVent.java,b\8\b8ff908945705db4d63f9d27f2d3192759875ef6
+f
+6src/main/java/advent_of_code/year_2021/day_5/input.txt,7\5\75abe6f2a4573a520a7789c3e2e9aa47306e8bf2
+g
+7src/main/java/advent_of_code/year_2021/day_5/Part1.java,5\2\52e0c3c9ef86c93388986fcac6f7894470004d12
+g
+7src/main/java/advent_of_code/year_2021/day_3/Part1.java,8\6\866dced3fa34a18ceb74c470d326ff6ab41c3f85
