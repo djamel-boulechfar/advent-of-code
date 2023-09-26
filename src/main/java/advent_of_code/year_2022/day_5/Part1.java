@@ -33,7 +33,6 @@ public class Part1 {
         // Récupération de chaque lettre des boîtes en haut de pile et création d'une châine de caractère
         String answer = stacks.stream()
                 .map(Stack::getTopCrateLetter)
-                .toList().stream()
                 .map(Object::toString)
                 .collect(Collectors.joining());
 
@@ -110,7 +109,7 @@ public class Part1 {
      * @return Un tableau contenant les 3 nombres présents dans la chaîne.
      */
     public static int[] getMoveInputDigits(String moveInput) {
-        return Pattern.compile("\\d+").matcher(moveInput).results().toList().stream()
+        return Pattern.compile("\\d+").matcher(moveInput).results()
                 .map(MatchResult::group)
                 .mapToInt(Integer::parseInt)
                 .toArray();
@@ -125,23 +124,19 @@ public class Part1 {
      */
     public static void moveCratesFromAStackToAnother(int numberOfCratesToMove, int sourceStackId, int destinationStackId, List<Stack> stacks) {
         // Tentative de récupération des piles correspondant aux IDs donnés
-        Stack sourceStack = stacks.stream().filter(stack -> stack.getId() == sourceStackId).findFirst().orElse(null);
-        Stack destinationStack = stacks.stream().filter(stack -> stack.getId() == destinationStackId).findFirst().orElse(null);
+        Stack sourceStack = stacks.stream()
+                .filter(stack -> stack.getId() == sourceStackId)
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Impossible de trouver une pile avec l'ID " + sourceStackId));
+        Stack destinationStack = stacks.stream()
+                .filter(stack -> stack.getId() == destinationStackId)
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Impossible de trouver une pile avec l'ID " + destinationStackId));
 
         // Si les deux piles ont été trouvées, on effectue le déplacement de la quantité de boîtes demandée
-        if (sourceStack != null && destinationStack != null) {
-            for (int i = 0; i < numberOfCratesToMove; i++) {
-                Character pickedCrateLetter = sourceStack.pickTopCrate();
-                destinationStack.addCrate(pickedCrateLetter);
-            }
-        }
-
-        // Sinon on renvoie une erreur pour chaque pile non trouvée
-        if (sourceStack == null) {
-            throw new NoSuchElementException("Impossible de trouver une pile avec l'ID " + sourceStackId);
-        }
-        if (destinationStack == null) {
-            throw new NoSuchElementException("Impossible de trouver une pile avec l'ID " + destinationStackId);
+        for (int i = 0; i < numberOfCratesToMove; i++) {
+            Character pickedCrateLetter = sourceStack.pickTopCrate();
+            destinationStack.addCrate(pickedCrateLetter);
         }
     }
 }
