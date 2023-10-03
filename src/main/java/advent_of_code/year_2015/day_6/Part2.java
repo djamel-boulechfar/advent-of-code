@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Part1 {
+public class Part2 {
     public static void main(String[] args) throws IOException {
         List<String> inputs = MyFileReader.readFileAndReturnStringList("src/main/java/advent_of_code/year_2015/day_6/input.txt");
 
@@ -17,15 +17,16 @@ public class Part1 {
         // Initialisation d'une map liant chaque position à une lumière
         Map<Position, Light> positionsLightsMap = computePositionsLightsMap(instructions);
 
+        // Somme de toutes les luminosités des lumières
         long answer = positionsLightsMap.values().stream()
-                .filter(light -> light.getState().equals(LightState.ON))
-                .count();
+                .mapToInt(Light::getBrightness)
+                .sum();
 
         System.out.println("Réponse : " + answer);
     }
 
-    // Génère une map ayant pour clé une position et pour valeur une lumière dont l'état est déterminé par l'ensemble
-    // des instructions
+    // Génère une map ayant pour clé une position et pour valeur une lumière dont la luminosité est déterminée par
+    // l'ensemble des instructions
     public static Map<Position, Light> computePositionsLightsMap(List<Instruction> instructions) {
         Map<Position, Light> positionsLightsMap = new HashMap<>();
 
@@ -42,7 +43,7 @@ public class Part1 {
                 int currentY = instruction.getStartPosition().getY();
 
                 while (currentY != instruction.getEndPosition().getY() + yIncrement) {
-                    setPositionLightState(currentX, currentY, instruction.getAction(), positionsLightsMap);
+                    setPositionLightBrightness(currentX, currentY, instruction.getAction(), positionsLightsMap);
                     currentY += yIncrement;
                 }
 
@@ -53,11 +54,12 @@ public class Part1 {
         return positionsLightsMap;
     }
 
-    // Set l'état d'une lumière à une position donnée en fonction de son état actuel et de l'action à effectuer
-    public static void setPositionLightState(int x, int y, Action action, Map<Position, Light> positionsLightsMap) {
+    // Set la luminosité d'une lumière à une position donnée en fonction de sa luminosité actuelle et de l'action à
+    // effectuer
+    public static void setPositionLightBrightness(int x, int y, Action action, Map<Position, Light> positionsLightsMap) {
         Position position = new Position(x, y);
 
-        // Si la position n'a pas encore été renseignée dans la map, on l'initialise avec une lumière éteinte
+        // Si la position n'a pas encore été renseignée dans la map, on l'initialise avec une lumière de luminosité 0
         if (!positionsLightsMap.containsKey(position)) {
             positionsLightsMap.put(position, new Light(LightState.OFF, 0));
         }
@@ -65,16 +67,18 @@ public class Part1 {
         // Récupération de la lumière à la position donnée
         Light light = positionsLightsMap.get(position);
 
-        // Modification de l'état de la lumière en fonction de l'action à effectuer
+        // Modification de la luminosité de la lumière en fonction de l'action à effectuer
         switch (action) {
             case TURN_ON:
-                light.setState(LightState.ON);
+                light.setBrightness(light.getBrightness() + 1);
                 break;
             case TURN_OFF:
-                light.setState(LightState.OFF);
+                if (light.getBrightness() - 1 >= 0) {
+                    light.setBrightness(light.getBrightness() - 1);
+                }
                 break;
             case TOGGLE:
-                light.toggle();
+                light.setBrightness(light.getBrightness() + 2);
                 break;
             default:
                 throw new IllegalArgumentException("Action inconnue : " + action);

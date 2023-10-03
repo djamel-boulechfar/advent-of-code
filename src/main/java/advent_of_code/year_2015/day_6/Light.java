@@ -7,6 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class Light {
     private LightState state;
+    private int brightness;
 
     public void toggle() {
         if (this.state.equals(LightState.ON)) {
