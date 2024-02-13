@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.MatchResult;
+import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 @Data
 public class IpAddress {
@@ -14,25 +17,25 @@ public class IpAddress {
         this.supernetSequences = new ArrayList<>();
         this.hypernetSequences = new ArrayList<>();
 
-        StringBuilder currentSequence = new StringBuilder();
+        List<String> words = Pattern.compile("\\w+").matcher(line).results()
+                .map(MatchResult::group)
+                .toList();
 
-        for(char c: line.toCharArray()) {
-            switch (c) {
-                case '[':
-                    this.supernetSequences.add(currentSequence.toString());
-                    currentSequence.delete(0, currentSequence.length());
-                    break;
-                case ']':
-                    this.hypernetSequences.add(currentSequence.toString());
-                    currentSequence.delete(0, currentSequence.length());
-                    break;
-                default:
-                    currentSequence.append(c);
-                    break;
-            }
+        if (words.isEmpty()) {
+            throw new IllegalArgumentException("Unable to create IpAddress from line : " + line);
         }
 
-        this.supernetSequences.add(currentSequence.toString());
+        this.supernetSequences = IntStream
+                .range(0, words.size())
+                .filter(i -> i % 2 == 0)
+                .mapToObj(words::get)
+                .toList();
+
+        this.hypernetSequences = IntStream
+                .range(0, words.size())
+                .filter(i -> i % 2 == 1)
+                .mapToObj(words::get)
+                .toList();
     }
 
     public boolean supportsTls() {
@@ -40,12 +43,8 @@ public class IpAddress {
     }
 
     private boolean hasAbbaInSequences(List<String> sequences) {
-        for (String sequence: sequences) {
-            if (this.sequenceContainsAbba(sequence)) {
-                return true;
-            }
-        }
-        return false;
+        return sequences.stream()
+                .anyMatch(this::sequenceContainsAbba);
     }
 
     private boolean sequenceContainsAbba(String sequence) {
