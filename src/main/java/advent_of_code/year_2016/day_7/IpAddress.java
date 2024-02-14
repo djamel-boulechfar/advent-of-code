@@ -2,10 +2,12 @@ package advent_of_code.year_2016.day_7;
 
 import lombok.Data;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Data
@@ -87,36 +89,36 @@ public class IpAddress {
      * @return true if IP address supports SSL, otherwise false.
      */
     public boolean supportsSsl() {
-        List<String> supernetSequencesAbaList = this.getAllAbaInSupernetSequences();
+        Set<String> supernetSequencesAbaList = this.getAllAbaInSupernetSequences();
 
         return this.hypernetSequences.stream()
                 .anyMatch(hypernetSequence -> this.sequenceContainsAtLeastOneBab(hypernetSequence, supernetSequencesAbaList));
     }
 
     /**
-     * Get a list of every ABA contained in IP address supernet sequences.
-     * @return A list of every ABA contained in IP address supernet sequences
+     * Get a set of every ABA contained in IP address supernet sequences.
+     * @return A set of every ABA contained in IP address supernet sequences
      */
-    private List<String> getAllAbaInSupernetSequences() {
+    private Set<String> getAllAbaInSupernetSequences() {
         return this.supernetSequences.stream()
                 .map(this::getAllAbaInSequence)
-                .flatMap(List::stream)
-                .toList();
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
     }
 
     /**
-     * Get a list of every ABA subsequences contained in given sequence.
+     * Get a set of every ABA subsequences contained in given sequence.
      * @param sequence Sequence to search ABA subsequences in.
-     * @return A list of every ABA contained in given sequence.
+     * @return A set of every ABA contained in given sequence.
      */
-    private List<String> getAllAbaInSequence(String sequence) {
-        List<String> result = new ArrayList<>();
+    private Set<String> getAllAbaInSequence(String sequence) {
+        Set<String> result = new HashSet<>();
 
         for (int i = 0; i < sequence.length() - 2; i++) { // Loop until 3 characters left
             // Checks if character at index i and its two following characters form an ABA :
             // If first and second characters are different (ABx) and first and last characters are the same (AxA)
             if (sequence.charAt(i) != sequence.charAt(i + 1) && sequence.charAt(i) == sequence.charAt(i + 2)) {
-                // Add corresponding String to result list
+                // Add corresponding String to result set
                 String aba = String.valueOf(sequence.charAt(i)) +
                         sequence.charAt(i + 1) +
                         sequence.charAt(i);
@@ -128,12 +130,12 @@ public class IpAddress {
     }
 
     /**
-     * Checks if given sequence contains a BAB corresponding to one of the given ABA list.
+     * Checks if given sequence contains a BAB corresponding to one of the given ABA set.
      * @param sequence Sequence to check.
-     * @param abaList List containing all ABA to search BAB from.
-     * @return true if sequence contains at least one BAB corresponding to any ABA in given list, otherwise false.
+     * @param abaList Set containing all ABA to search BAB from.
+     * @return true if sequence contains at least one BAB corresponding to any ABA in given set, otherwise false.
      */
-    private boolean sequenceContainsAtLeastOneBab(String sequence, List<String> abaList) {
+    private boolean sequenceContainsAtLeastOneBab(String sequence, Set<String> abaList) {
         return abaList.stream()
                 .map(aba -> String.valueOf(aba.charAt(1)) + aba.charAt(0) + aba.charAt(1))
                 .anyMatch(sequence::contains);
