@@ -13,8 +13,8 @@ import java.util.regex.Pattern;
 public class Tower {
     private String id;
     private int weight;
-    private Optional<String> prev;
-    private List<String> next;
+    private Optional<String> prevTowerId;
+    private List<String> nextTowerIds;
 
     public Tower(String line) {
         Matcher matcher = Pattern.compile("(?<id>\\w+) \\((?<weight>\\d+)\\)( -> (?<subTowers>.*))?").matcher(line);
@@ -25,12 +25,12 @@ public class Tower {
 
         this.id = matcher.group("id");
         this.weight = Integer.parseInt(matcher.group("weight"));
-        this.prev = Optional.empty();
-        this.next = new ArrayList<>();
+        this.prevTowerId = Optional.empty();
+        this.nextTowerIds = new ArrayList<>();
 
         String subTowers = matcher.group("subTowers");
         if (subTowers != null) {
-            this.next = Pattern.compile("\\w+").matcher(subTowers).results()
+            this.nextTowerIds = Pattern.compile("\\w+").matcher(subTowers).results()
                     .map(MatchResult::group)
                     .toList();
         }
