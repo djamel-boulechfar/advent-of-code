@@ -14,14 +14,24 @@ public class Part1 {
     private static final Pattern DIRECTORY_PATTERN = Pattern.compile("dir (?<directoryName>(\\w+))");
     private static final Pattern FILE_PATTERN = Pattern.compile("(?<fileSize>\\d+) (?<fileName>\\w+(\\.\\w+)?)");
 
+    private static final int LIGHT_DIRECTORY_THRESHOLD = 100_000;
+    private static final int FILESYSTEM_CAPACITY = 70_000_000;
+    private static final int UPDATE_FREE_SPACE_REQUIREMENT = 30_000_000;
+
     public static void main(String[] args) throws IOException {
         List<String> input = MyFileReader.readFileAndReturnStringList("src/main/java/advent_of_code/year_2022/day_7/input.txt");
 
         Directory rootDirectory = parseInput(input);
 
-        int answer = sumOfAtMost100000SizedDirectories(rootDirectory);
 
-        System.out.println(answer);
+        // Part 1
+        int answer = sumOfAtMost100000SizedDirectories(rootDirectory);
+        System.out.println("Part 1 answer = " + answer);
+
+        // Part 2
+        int currentlyAvailableSpace = FILESYSTEM_CAPACITY - rootDirectory.computeSize();
+        Directory bestDirectoryToRemove = findBestDirectoryToRemove(rootDirectory, currentlyAvailableSpace, rootDirectory);
+        System.out.println("Part 2 answer = " + bestDirectoryToRemove.computeSize());
     }
 
     private static Directory parseInput(List<String> input) {
@@ -77,10 +87,26 @@ public class Part1 {
         }
 
         int currentDirectorySize = currentDirectory.computeSize();
-        if (currentDirectorySize <= 100000) {
+        if (currentDirectorySize <= LIGHT_DIRECTORY_THRESHOLD) {
             return currentDirectorySize + subDirectoriesRes;
         } else {
             return subDirectoriesRes;
         }
+    }
+
+    private static Directory findBestDirectoryToRemove(Directory currentDirectory, int currentlyAvailableSpace, Directory bestCandidate) {
+        int currentDirectorySize = currentDirectory.computeSize();
+
+        if (currentDirectorySize + currentlyAvailableSpace >= UPDATE_FREE_SPACE_REQUIREMENT) {
+            if (currentDirectorySize <= bestCandidate.computeSize()) {
+                bestCandidate = currentDirectory;
+            }
+
+            for (Directory subDirectory: currentDirectory.getSubDirectories()) {
+                bestCandidate = findBestDirectoryToRemove(subDirectory, currentlyAvailableSpace, bestCandidate);
+            }
+        }
+
+        return bestCandidate;
     }
 }
