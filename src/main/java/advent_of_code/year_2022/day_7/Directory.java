@@ -9,15 +9,25 @@ import java.util.Optional;
 @Data
 public class Directory {
     private String name;
+    private Optional<Integer> sizeOptional;
     private Optional<Directory> parentDirectoryOptional;
     private List<Directory> subDirectories;
     private List<File> files;
 
     public Directory(String name, Optional<Directory> parentDirectoryOptional) {
         this.name = name;
+        this.sizeOptional = Optional.empty();
         this.parentDirectoryOptional = parentDirectoryOptional;
         this.subDirectories = new ArrayList<>();
         this.files = new ArrayList<>();
+    }
+
+    public int getSize() {
+        if (this.sizeOptional.isEmpty()) {
+            throw new IllegalStateException("Directory '" + this.name + "' size has not been computed yet.");
+        }
+
+        return this.sizeOptional.get();
     }
 
     public Directory getParentDirectory() {
@@ -44,14 +54,16 @@ public class Directory {
         this.files.add(new File(fileName, fileSize));
     }
 
-    public int computeSize() {
+    public int computeAndSaveSize() {
         int size = this.files.stream()
                 .map(File::getSize)
                 .reduce(0, Integer::sum);
 
         for (Directory subDirectory: this.subDirectories) {
-            size += subDirectory.computeSize();
+            size += subDirectory.computeAndSaveSize();
         }
+
+        this.sizeOptional = Optional.of(size);
 
         return size;
     }

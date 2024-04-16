@@ -22,16 +22,17 @@ public class Part1 {
         List<String> input = MyFileReader.readFileAndReturnStringList("src/main/java/advent_of_code/year_2022/day_7/input.txt");
 
         Directory rootDirectory = parseInput(input);
-
+        // Compute and save size of root directory (and all other directories as this method is recursive)
+        rootDirectory.computeAndSaveSize();
 
         // Part 1
         int answer = sumOfAtMost100000SizedDirectories(rootDirectory);
         System.out.println("Part 1 answer = " + answer);
 
         // Part 2
-        int currentlyAvailableSpace = FILESYSTEM_CAPACITY - rootDirectory.computeSize();
+        int currentlyAvailableSpace = FILESYSTEM_CAPACITY - rootDirectory.getSize();
         Directory bestDirectoryToRemove = findBestDirectoryToRemove(rootDirectory, currentlyAvailableSpace, rootDirectory);
-        System.out.println("Part 2 answer = " + bestDirectoryToRemove.computeSize());
+        System.out.println("Part 2 answer = " + bestDirectoryToRemove.getSize());
     }
 
     private static Directory parseInput(List<String> input) {
@@ -86,7 +87,7 @@ public class Part1 {
             subDirectoriesRes += sumOfAtMost100000SizedDirectories(subDirectory);
         }
 
-        int currentDirectorySize = currentDirectory.computeSize();
+        int currentDirectorySize = currentDirectory.getSize();
         if (currentDirectorySize <= LIGHT_DIRECTORY_THRESHOLD) {
             return currentDirectorySize + subDirectoriesRes;
         } else {
@@ -95,10 +96,10 @@ public class Part1 {
     }
 
     private static Directory findBestDirectoryToRemove(Directory currentDirectory, int currentlyAvailableSpace, Directory bestCandidate) {
-        int currentDirectorySize = currentDirectory.computeSize();
+        int currentDirectorySize = currentDirectory.getSize();
 
         if (currentDirectorySize + currentlyAvailableSpace >= UPDATE_FREE_SPACE_REQUIREMENT) {
-            if (currentDirectorySize <= bestCandidate.computeSize()) {
+            if (currentDirectorySize <= bestCandidate.getSize()) {
                 bestCandidate = currentDirectory;
             }
 
