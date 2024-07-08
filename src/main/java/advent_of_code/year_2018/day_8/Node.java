@@ -20,10 +20,8 @@ public class Node {
 
         int currentIndex = index;
 
-        int childrenCount = licenceNumbers.get(currentIndex);
-        currentIndex++;
-        int metadataCount = licenceNumbers.get(currentIndex);
-        currentIndex++;
+        int childrenCount = licenceNumbers.get(currentIndex++);
+        int metadataCount = licenceNumbers.get(currentIndex++);
 
         for (int i = 0; i < childrenCount; i++) {
             CreateNodeResult createNodeResult = createNode(licenceNumbers, currentIndex);
@@ -31,22 +29,21 @@ public class Node {
             currentIndex = createNodeResult.index();
         }
 
-        for (int i = 0; i < metadataCount; i++) {
+        for (int i = 0; i < metadataCount; i++, currentIndex++) {
             node.getMetadata().add(licenceNumbers.get(currentIndex));
-            currentIndex++;
         }
 
         return new CreateNodeResult(node, currentIndex);
     }
 
     public int metadataSum() {
-        int sum = this.metadata.stream()
+        int metadataSum = this.metadata.stream()
                 .reduce(0, Integer::sum);
 
-        for (Node child : children) {
-            sum += child.metadataSum();
-        }
+        int childrenMetadataSum = this.children.stream()
+                .map(Node::metadataSum)
+                .reduce(0, Integer::sum);
 
-        return sum;
+        return metadataSum + childrenMetadataSum;
     }
 }
