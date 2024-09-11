@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Pixel {
-//    private int x;
-//    private int y;
+    private int x;
+    private int y;
     private int value;
 }
