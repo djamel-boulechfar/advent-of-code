@@ -1,11 +1,13 @@
 package advent_of_code.year_2020.day_8;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Data
+@AllArgsConstructor
 public class Operation {
     private OperationType operationType;
     private int value;
@@ -25,5 +27,10 @@ public class Operation {
         if ("-".equals(matcher.group("sign"))) {
             this.value = this.value * -1;
         }
+    }
+
+    public Operation(Operation other) {
+        this.operationType = other.getOperationType();
+        this.value = other.getValue();
     }
 }
