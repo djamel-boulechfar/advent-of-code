@@ -3,6 +3,7 @@ package advent_of_code.year_2020.day_8;
 import advent_of_code.utils.MyFileReader;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,24 +23,21 @@ public class Main {
         for (int i = 0; i < operations.size(); i++) {
             Operation currentOperation = operations.get(i);
 
-            List<Operation> correctedOperations = new java.util.ArrayList<>(operations.stream()
-                    .map(Operation::new)
-                    .toList());
-
-            // Try an OperationType correction
-            if (OperationType.JMP.equals(currentOperation.getOperationType())) {
-                correctedOperations.set(i, new Operation(OperationType.NOP, currentOperation.getValue()));
-            } else if (OperationType.NOP.equals(currentOperation.getOperationType())) {
-                correctedOperations.set(i, new Operation(OperationType.JMP, currentOperation.getValue()));
+            if (OperationType.ACC.equals(currentOperation.getOperationType())) {
+                continue;
             }
 
+            List<Operation> correctedOperations = new ArrayList<>(operations.stream()
+                    .map(Operation::copy)
+                    .toList());
 
-            if (!OperationType.ACC.equals(currentOperation.getOperationType())) {
-                ExecutionResult currentExecutionResult = computeOperations(correctedOperations);
+            correctedOperations.set(i, new Operation(currentOperation.getOperationType().correct(), currentOperation.getValue()));
 
-                if (currentExecutionResult.index() >= correctedOperations.size()) {
-                    System.out.println("Part 2 answer = " + currentExecutionResult.accumulator());
-                }
+            ExecutionResult currentExecutionResult = computeOperations(correctedOperations);
+
+            if (currentExecutionResult.index() >= correctedOperations.size()) {
+                System.out.println("Part 2 answer = " + currentExecutionResult.accumulator());
+                break;
             }
         }
     }

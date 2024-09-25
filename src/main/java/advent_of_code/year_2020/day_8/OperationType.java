@@ -23,4 +23,12 @@ public enum OperationType {
         }
         throw new IllegalArgumentException("No operation type found for value " + value);
     }
+
+    public OperationType correct() {
+        return switch (this) {
+            case JMP -> NOP;
+            case NOP -> JMP;
+            default -> this;
+        };
+    }
 }
