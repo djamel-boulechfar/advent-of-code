@@ -41,7 +41,7 @@ public class Part2 {
 
             String rightBorder1, rightBorder2;
 
-            Set<Character> oneCodeCharacters = Set.of(oneCode.toCharArray());
+//            Set<Character> oneCodeCharacters = Set.of(oneCode.toCharArray());
         }
 
         System.out.println("Part 1 answer = " + searchedNumberOccurrences);
