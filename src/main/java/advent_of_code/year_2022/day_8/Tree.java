@@ -7,5 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class Tree {
     private Position position;
-    private int value;
+    private int height;
 }
