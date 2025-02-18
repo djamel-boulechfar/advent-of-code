@@ -15,4 +15,11 @@ public class Position {
 
         return new Position(this.x + 2 * dx, this.y + 2 * dy);
     }
+
+    public Difference getDifferenceWith(Position position) {
+        int dx = position.x - this.x;
+        int dy = position.y - this.y;
+
+        return new Difference(dx, dy);
+    }
 }

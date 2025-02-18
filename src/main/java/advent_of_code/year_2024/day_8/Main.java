@@ -53,5 +53,32 @@ public class Main {
         }
 
         System.out.println("Part 1 answer = " + antinodesPositions.size());
+
+        Set<Position> part2AntinodesPositions = new HashSet<>();
+        for (Set<Position> antennasPositions : antennasPerPositions.values()) {
+            for (Position antennaPosition : antennasPositions) {
+                Set<Position> antennasPositionWithoutCurrentAntenna = antennasPositions.stream()
+                        .filter(otherAntennaPosition -> !otherAntennaPosition.equals(antennaPosition))
+                        .collect(Collectors.toSet());
+
+                for (Position otherAntennaPosition : antennasPositionWithoutCurrentAntenna) {
+                    Difference difference = antennaPosition.getDifferenceWith(otherAntennaPosition);
+
+                    Position nextPositionPositive = new Position(antennaPosition.getX() + difference.dx(), antennaPosition.getY() + difference.dy());
+                    while (0 <= nextPositionPositive.getX() && maxX > nextPositionPositive.getX() && 0 <= nextPositionPositive.getY() && maxY > nextPositionPositive.getY()) {
+                        part2AntinodesPositions.add(nextPositionPositive);
+                        nextPositionPositive = new Position(nextPositionPositive.getX() + difference.dx(), nextPositionPositive.getY() + difference.dy());
+                    }
+
+                    Position nextPositionNegative = new Position(antennaPosition.getX() - difference.dx(), antennaPosition.getY() - difference.dy());
+                    while (0 <= nextPositionNegative.getX() && maxX > nextPositionNegative.getX() && 0 <= nextPositionNegative.getY() && maxY > nextPositionNegative.getY()) {
+                        part2AntinodesPositions.add(nextPositionNegative);
+                        nextPositionNegative = new Position(nextPositionNegative.getX() - difference.dx(), nextPositionNegative.getY() - difference.dy());
+                    }
+                }
+            }
+        }
+
+        System.out.println("Part 2 answer = " + part2AntinodesPositions.size());
     }
 }
