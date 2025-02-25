@@ -26,11 +26,8 @@ public class Main {
                 char character = line.charAt(x);
 
                 if ('.' != character) {
-                    antennasPerPositions.putIfAbsent(character, new HashSet<>());
-
-                    Set<Position> antennaPositions = antennasPerPositions.get(character);
-
-                    antennaPositions.add(new Position(x, y));
+                    antennasPerPositions.computeIfAbsent(character, c -> new HashSet<>())
+                            .add(new Position(x, y));
                 }
             }
         }
